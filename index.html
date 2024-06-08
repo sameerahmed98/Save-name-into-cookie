@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+<style>
+input.ays_next.start_button.action-button {
+    pointer-events: none;
+    opacity: 0.5;
+}
+
+input.ays_next.start_button.action-button.disabled {
+    pointer-events: unset;
+    opacity: 1;
+}
+</style>
+</head>
+<body>
+    <div id="adding-username">
+        <h1>Hello </h1>
+    </div>
+
+    <input type="text" name="username" id="username" placeholder="Enter your name">
+    <input type="button" class="ays_next start_button action-button" value="Start" data-enable-leave-page="false">
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const getButton = document.querySelector('input.ays_next.start_button.action-button');
+    const inputfield = document.querySelector('#username');
+    let namefromcookie;
+
+    inputfield.addEventListener('input', function() {
+        if (inputfield.value.trim() !== '') {
+            // getButton.classList.add('disabled');
+        }
+    });
+    console.log('right below from inut')
+
+    function saveintocookie() {
+        document.cookie = `username=${document.querySelector('#username').value}`;
+    }
+
+    function getUsernameCookie() {
+        const cookieString = document.cookie.split('; ').find(row => row.startsWith('username='));
+        return cookieString ? cookieString.split('=')[1] : null;
+    }
+    namefromcookie = getUsernameCookie();
+
+    function updatenameinheading(namefromcookie) {
+        if(namefromcookie){
+			const element = document.querySelector('#adding-username h1');
+            element.insertAdjacentHTML('beforeend', ' ' + namefromcookie);
+        }
+    }
+    updatenameinheading(namefromcookie)
+
+    function hideInput(){
+        if(namefromcookie){
+            inputfield.style.display = "none";
+            // getButton.classList.add('disabled');
+        }
+    }
+    hideInput();
+
+    getButton.onclick = function() {
+        saveintocookie()
+        namefromcookie = getUsernameCookie()
+        updatenameinheading(namefromcookie)
+        hideInput()
+    }
+
+    console.log(namefromcookie)
+});
+</script>
+</body>
+</html>
